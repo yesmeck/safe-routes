@@ -7,7 +7,7 @@ import { testRoutes } from './config';
 
 
 test('gen route types', async () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'react-router-routes-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'safe-routes-'));
   const config = {
     appDirectory: path.join(root, "app"),
     routes: testRoutes,
@@ -16,6 +16,6 @@ test('gen route types', async () => {
   await build(root, config, { outputDirPath: './node_modules', strict: false });
 
   expect(
-    fs.readFileSync(path.join(root, 'node_modules/react-router-routes.d.ts'), 'utf8'),
+    fs.readFileSync(path.join(root, 'node_modules/safe-routes.d.ts'), 'utf8'),
   ).toMatchSnapshot();
 });

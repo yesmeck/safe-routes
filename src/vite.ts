@@ -28,7 +28,7 @@ export function reactRouterRoutes(pluginConfig: PluginConfig = {}): Vite.Plugin 
   }
 
   return {
-    name: 'react-router-routes',
+    name: 'safe-routes',
     enforce: 'post',
     apply: 'build',
     config(_viteUserConfig, _viteConfigEnv) {

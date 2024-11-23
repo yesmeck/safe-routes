@@ -107,7 +107,7 @@ function generate(root: string, config: RequiredReactRouterConfig, routesInfo: R
   if (!fs.existsSync(outputPath)) {
     mkdirp.sync(outputPath);
   }
-  fs.writeFileSync(path.join(outputPath, 'react-router-routes.d.ts'), tsCode);
+  fs.writeFileSync(path.join(outputPath, 'safe-routes.d.ts'), tsCode);
 }
 
 function parse(routes: RouteManifestEntry[]) {

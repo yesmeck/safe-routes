@@ -1,14 +1,14 @@
 {
-  "name": "react-router-routes",
-  "version": "1.0.0",
+  "name": "safe-routes",
+  "version": "0.0.1-alpha.0",
   "description": "Typesafe routing for React Router apps.",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yesmeck/react-router-routes.git"
+    "url": "https://github.com/yesmeck/safe-routes.git"
   },
   "bin": {
-    "react-router-routes": "dist/cli.js"
+    "safe-routes": "dist/cli.js"
   },
   "exports": {
     "./vite": {

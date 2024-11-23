@@ -3,7 +3,7 @@ import autoprefixer from "autoprefixer";
 import tailwindcss from "tailwindcss";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
-import { reactRouterRoutes } from 'react-router-routes/vite';
+import { reactRouterRoutes } from 'safe-routes/vite';
 
 export default defineConfig({
   css: {
