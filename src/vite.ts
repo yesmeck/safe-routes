@@ -8,7 +8,7 @@ interface PluginConfig {
 
 const ReactRouterPluginContextName = '__reactRouterPluginContext';
 
-export function reactRouterRoutes(pluginConfig: PluginConfig = {}): Vite.Plugin {
+export function safeRoutes(pluginConfig: PluginConfig = {}): Vite.Plugin {
   let reactRouterPlugin: any;
   let rootDirectory: string
   let viteUserConfig: Vite.UserConfig;

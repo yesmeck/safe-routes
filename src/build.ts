@@ -14,6 +14,7 @@ interface Options {
 }
 
 type RoutesInfo = Record<string, {
+  id: string;
   fileName: string;
   params: string[];
 }>
@@ -35,6 +36,7 @@ async function buildHelpers(config: RequiredReactRouterConfig): Promise<[RoutesI
       routeIds.push(route.id);
       if (route.id === 'root') {
         routesInfo['/'] = {
+          id: route.id,
           fileName: route.file,
           params: [],
         };
@@ -49,6 +51,7 @@ async function buildHelpers(config: RequiredReactRouterConfig): Promise<[RoutesI
         // account optional segments that aren't params/dynamic.
         for (const pathVariant of expandOptionalStaticSegments(fullPath)) {
           routesInfo[pathVariant] = {
+            id: route.id,
             fileName: route.file,
             params: paramsNames
           };
@@ -96,12 +99,12 @@ function generate(root: string, config: RequiredReactRouterConfig, routesInfo: R
   const tsCode = template({
     strict: options.strict,
     relativeAppDirPath,
-    routes: Object.entries(routesInfo).map(([route, { fileName, params }]) => ({
+    routes: Object.entries(routesInfo).map(([route, { id, fileName, params }]) => ({
+      id,
       route,
       params,
       fileName: slash(fileName.replace(/\.tsx?$/, '')),
     })).sort((a, b) => a.route.localeCompare(b.route)),
-    routeIds,
   });
 
   if (!fs.existsSync(outputPath)) {

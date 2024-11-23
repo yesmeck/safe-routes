@@ -2,33 +2,36 @@ interface Context {
   strict?: boolean;
   relativeAppDirPath: string;
   routes: Array<{
+    id: string,
     route: string;
     params: string[];
     fileName: string;
   }>,
-  routeIds: string[];
 }
 
-export function exportedQuery(ctx: Context) {
+function indent(n: number) {
+  return '  '.repeat(n);
+}
+
+function exportedQuery(ctx: Context) {
   if (ctx.strict) {
     return `type ExportedQuery<T> = IsSearchParams<T> extends true ? T : never;`;
   }
   return `type ExportedQuery<T> = IsSearchParams<T> extends true ? T : URLSearchParamsInit;`;
 }
 
-export function routes(ctx: Context) {
-  return `export interface Routes {
-    ${ctx.routes.map(({ route, params, fileName }) => {
-      return `"${route}": {
+function routes(ctx: Context) {
+  const routes = ctx.routes.map(({ route, params, fileName }) =>
+    `"${route}": {
+        id: '${route}',
         params: ${params.length > 0 ? `{${params.map(param => `${param}: string | number`).join('; ')}}` : 'never'},
         query: ExportedQuery<import('${ctx.relativeAppDirPath}/${fileName}').SearchParams>,
-      };`
-    })}
-  }`
-}
+    }`
+  );
 
-export function RouteId(ctx: Context) {
-  return `export type RouteId = ${ctx.routeIds.join(' | ')};`;
+  return `export interface Routes {
+    ${routes.join(',\n' + indent(2))}
+  }`
 }
 
 export function template(ctx: Context) {
@@ -36,7 +39,9 @@ export function template(ctx: Context) {
   type URLSearchParamsInit = string | string[][] | Record<string, string> | URLSearchParams;
   // symbol won't be a key of SearchParams
   type IsSearchParams<T> = symbol extends keyof T ? false : true;
+
   ${exportedQuery(ctx)}
+
   ${routes(ctx)}
 
   type RoutesWithParams = Pick<
@@ -46,7 +51,7 @@ export function template(ctx: Context) {
     }[keyof Routes]
   >;
 
-  ${RouteId(ctx)}
+  export type RouteId = Routes[keyof Routes]['id'];
 
   export function $path<
     Route extends keyof Routes,
