@@ -5,7 +5,7 @@ import * as path from 'path';
 import slash from 'slash';
 import { template } from './template.js';
 
-type RequiredReactRouterConfig = Pick<Parameters<Required<Preset>['reactRouterConfigResolved']>[number]['reactRouterConfig'], 'appDirectory' | 'routes'>;
+type RequiredReactRouterConfig = Pick<Parameters<Required<Preset>['reactRouterConfigResolved']>[number]['reactRouterConfig'], 'appDirectory' | 'routes' | 'basename'>;
 type RouteManifestEntry = RequiredReactRouterConfig['routes'][string];
 
 interface Options {
@@ -21,9 +21,8 @@ type RoutesInfo = Record<string, {
 
 export const DEFAULT_OUTPUT_DIR_PATH = './node_modules'
 
-async function buildHelpers(config: RequiredReactRouterConfig): Promise<[RoutesInfo, string[]]> {
+async function buildHelpers(config: RequiredReactRouterConfig): Promise<RoutesInfo> {
   const routesInfo: RoutesInfo = {};
-  const routeIds: string[] = [];
   const handleRoutesRecursive = (
     parentId?: string,
     parentPath: RouteManifestEntry[] = [],
@@ -33,7 +32,6 @@ async function buildHelpers(config: RequiredReactRouterConfig): Promise<[RoutesI
     );
     routes.forEach((route) => {
       let currentPath = parentPath;
-      routeIds.push(route.id);
       if (route.id === 'root') {
         routesInfo['/'] = {
           id: route.id,
@@ -61,7 +59,7 @@ async function buildHelpers(config: RequiredReactRouterConfig): Promise<[RoutesI
     });
   };
   handleRoutesRecursive();
-  return [routesInfo, routeIds];
+  return routesInfo;
 }
 
 function expandOptionalStaticSegments(path: string) {
@@ -85,17 +83,16 @@ function expandOptionalStaticSegments(path: string) {
 }
 
 export async function build(root: string, config: RequiredReactRouterConfig, options: Options) {
-  const [routesInfo, routeIds] = await buildHelpers(config);
-  generate(root, config, routesInfo, routeIds, options);
+  const routesInfo = await buildHelpers(config);
+  generate(root, config, routesInfo, options);
 }
 
-function generate(root: string, config: RequiredReactRouterConfig, routesInfo: RoutesInfo, routeIds: string[], options: Options) {
+function generate(root: string, config: RequiredReactRouterConfig, routesInfo: RoutesInfo, options: Options) {
   const outputPath = path.join(
     root,
     options.outputDirPath,
   );
   const relativeAppDirPath = slash(path.relative(outputPath, config.appDirectory));
-  routeIds.sort((a, b) => a.localeCompare(b));
   const tsCode = template({
     strict: options.strict,
     relativeAppDirPath,
