@@ -1,23 +1,60 @@
 {
-  "name": "root",
-  "private": true,
+  "name": "react-router-routes",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "vitest",
-    "watch": "pnpm run --parallel watch",
-    "build": "pnpm run --parallel build",
-    "ci:version": "changeset version",
-    "ci:publish": "pnpm publish -r --no-git-checks"
+  "description": "Typesafe routing for React Router apps.",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yesmeck/react-router-routes.git"
   },
-  "keywords": [],
-  "author": "",
+  "bin": {
+    "react-router-routes": "dist/cli.js"
+  },
+  "exports": {
+    "./vite": {
+      "import": "./dist/vite.js",
+      "require": "./dist/vite..d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "vite.js",
+    "vite.d.ts",
+    "hello.ts",
+    "!lib/__tests__"
+  ],
+  "scripts": {
+    "watch": "tsc --watch",
+    "prebuild": "rm -rf dist",
+    "build": "tsc",
+    "prepack": "npm run build",
+    "semantic-release": "semantic-release"
+  },
+  "keywords": [
+    "remix",
+    "react-router",
+    "routes",
+    "typescript"
+  ],
+  "author": "Wei Zhu",
   "license": "MIT",
   "devDependencies": {
-    "@changesets/cli": "^2.26.0",
-    "typescript-remix-routes-plugin": "workspace:*",
-    "vitest": "^1.6.0"
+    "@react-router/dev": "^7.0.1",
+    "@types/ejs": "^3.1.5",
+    "@types/mkdirp": "^2.0.0",
+    "@types/node": "^22.9.3",
+    "semantic-release": "^24.2.0",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
+    "vitest": "^2.1.5"
   },
-  "packageManager": "pnpm@9.6.0+sha512.38dc6fba8dba35b39340b9700112c2fe1e12f10b17134715a4aa98ccf7bb035e76fd981cf0bb384dfa98f8d6af5481c2bef2f4266a24bfa20c34eb7147ce0b5e"
+  "dependencies": {
+    "dedent": "^1.5.3",
+    "ejs": "^3.1.10",
+    "meow": "13.2.0",
+    "mkdirp": "^3.0.1",
+    "slash": "3",
+    "vite-node": "^2.1.5"
+  },
+  "packageManager": "pnpm@9.11.0+sha512.0a203ffaed5a3f63242cd064c8fb5892366c103e328079318f78062f24ea8c9d50bc6a47aa3567cabefd824d170e78fa2745ed1f16b132e16436146b7688f19b"
 }
