@@ -5,7 +5,7 @@ import * as path from 'path';
 import slash from 'slash';
 import { template } from './template.js';
 
-type RequiredReactRouterConfig = Pick<Parameters<Required<Preset>['reactRouterConfigResolved']>[number]['reactRouterConfig'], 'appDirectory' | 'routes' | 'basename'>;
+type RequiredReactRouterConfig = Pick<Parameters<Required<Preset>['reactRouterConfigResolved']>[number]['reactRouterConfig'], 'appDirectory' | 'routes'>;
 type RouteManifestEntry = RequiredReactRouterConfig['routes'][string];
 
 interface Options {
