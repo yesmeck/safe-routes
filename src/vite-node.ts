@@ -1,41 +1,32 @@
 import { createServer } from 'vite'
 import { ViteNodeRunner } from 'vite-node/client'
 import { ViteNodeServer } from 'vite-node/server'
-import { installSourcemapsSupport } from 'vite-node/source-map'
 
-// create vite server
-export const server = await createServer({
-  server: {
-    preTransformRequests: false,
-    hmr: false,
-  },
-  optimizeDeps: {
-    noDiscovery: true,
-  },
-})
-// this is need to initialize the plugins
-await server.pluginContainer.buildStart({})
+export async function createContext() {
+  const server = await createServer({
+    server: {
+      preTransformRequests: false,
+      hmr: false,
+    },
+    optimizeDeps: {
+      noDiscovery: true,
+    },
+  })
 
-// create vite-node server
-const node = new ViteNodeServer(server)
+  await server.pluginContainer.buildStart({})
 
-// fixes stacktraces in Errors
-installSourcemapsSupport({
-  getSourceMap: source => node.getSourceMap(source),
-})
+  const node = new ViteNodeServer(server)
 
-// create vite-node runner
-export const runner = new ViteNodeRunner({
-  root: server.config.root,
-  base: server.config.base,
-  // when having the server and runner in a different context,
-  // you will need to handle the communication between them
-  // and pass to this function
-  fetchModule(id) {
-    return node.fetchModule(id)
-  },
-  resolveId(id, importer) {
-    return node.resolveId(id, importer)
-  },
-})
+  const runner = new ViteNodeRunner({
+    root: server.config.root,
+    base: server.config.base,
+    fetchModule(id) {
+      return node.fetchModule(id)
+    },
+    resolveId(id, importer) {
+      return node.resolveId(id, importer)
+    },
+  })
 
+  return { server, runner };
+}

@@ -1,14 +1,13 @@
-#!/usr/bin/env node
-import * as fs from 'fs';
-import * as path from 'path';
-import { Preset } from '@react-router/dev/config';
-import mkdirp from 'mkdirp';
-import slash from 'slash';
+import { type Preset } from '@react-router/dev/config';
 import ejs from 'ejs';
+import * as fs from 'fs';
+import { mkdirp } from 'mkdirp';
+import * as path from 'path';
+import slash from 'slash';
 import { template } from './template.js';
 
-type ResolvedReactRouterConfig = Parameters<Required<Preset>['reactRouterConfigResolved']>[number]['reactRouterConfig'];
-type RouteManifestEntry = ResolvedReactRouterConfig['routes'][string];
+type RequiredReactRouterConfig = Pick<Parameters<Required<Preset>['reactRouterConfigResolved']>[number]['reactRouterConfig'], 'appDirectory' | 'routes'>;
+type RouteManifestEntry = RequiredReactRouterConfig['routes'][string];
 
 interface Options {
   strict?: boolean;
@@ -22,7 +21,7 @@ type RoutesInfo = Record<string, {
 
 export const DEFAULT_OUTPUT_DIR_PATH = './node_modules'
 
-async function buildHelpers(config: ResolvedReactRouterConfig): Promise<[RoutesInfo, string[]]> {
+async function buildHelpers(config: RequiredReactRouterConfig): Promise<[RoutesInfo, string[]]> {
   const routesInfo: RoutesInfo = {};
   const routeIds: string[] = [];
   const handleRoutesRecursive = (
@@ -83,12 +82,12 @@ function expandOptionalStaticSegments(path: string) {
   return paths;
 }
 
-export async function build(root: string, config: ResolvedReactRouterConfig, options: Options) {
+export async function build(root: string, config: RequiredReactRouterConfig, options: Options) {
   const [routesInfo, routeIds] = await buildHelpers(config);
   generate(root, config, routesInfo, routeIds, options);
 }
 
-function generate(root: string, config: ResolvedReactRouterConfig, routesInfo: RoutesInfo, routeIds: string[], options: Options) {
+function generate(root: string, config: RequiredReactRouterConfig, routesInfo: RoutesInfo, routeIds: string[], options: Options) {
   const outputPath = path.join(
     root,
     options.outputDirPath,

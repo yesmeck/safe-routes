@@ -24,6 +24,7 @@
     "!lib/__tests__"
   ],
   "scripts": {
+    "test": "vitest",
     "watch": "tsc --watch",
     "prebuild": "rm -rf dist",
     "build": "tsc",
