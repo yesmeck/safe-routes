@@ -1,5 +1,4 @@
 import { type Preset } from '@react-router/dev/config';
-import ejs from 'ejs';
 import * as fs from 'fs';
 import { mkdirp } from 'mkdirp';
 import * as path from 'path';
@@ -94,8 +93,8 @@ function generate(root: string, config: RequiredReactRouterConfig, routesInfo: R
   );
   const relativeAppDirPath = slash(path.relative(outputPath, config.appDirectory));
   routeIds.sort((a, b) => a.localeCompare(b));
-  const tsCode = ejs.render(template, {
-    strictMode: options.strict,
+  const tsCode = template({
+    strict: options.strict,
     relativeAppDirPath,
     routes: Object.entries(routesInfo).map(([route, { fileName, params }]) => ({
       route,

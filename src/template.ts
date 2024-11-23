@@ -1,23 +1,43 @@
-export const template = `declare module "remix-routes" {
+interface Context {
+  strict?: boolean;
+  relativeAppDirPath: string;
+  routes: Array<{
+    route: string;
+    params: string[];
+    fileName: string;
+  }>,
+  routeIds: string[];
+}
+
+export function exportedQuery(ctx: Context) {
+  if (ctx.strict) {
+    return `type ExportedQuery<T> = IsSearchParams<T> extends true ? T : never;`;
+  }
+  return `type ExportedQuery<T> = IsSearchParams<T> extends true ? T : URLSearchParamsInit;`;
+}
+
+export function routes(ctx: Context) {
+  return `export interface Routes {
+    ${ctx.routes.map(({ route, params, fileName }) => {
+      return `"${route}": {
+        params: ${params.length > 0 ? `{${params.map(param => `${param}: string | number`).join('; ')}}` : 'never'},
+        query: ExportedQuery<import('${ctx.relativeAppDirPath}/${fileName}').SearchParams>,
+      };`
+    })}
+  }`
+}
+
+export function RouteId(ctx: Context) {
+  return `export type RouteId = ${ctx.routeIds.join(' | ')};`;
+}
+
+export function template(ctx: Context) {
+  return `declare module "remix-routes" {
   type URLSearchParamsInit = string | string[][] | Record<string, string> | URLSearchParams;
   // symbol won't be a key of SearchParams
   type IsSearchParams<T> = symbol extends keyof T ? false : true;
-  <% if (strictMode) { %>
-  type ExportedQuery<T> = IsSearchParams<T> extends true ? T : never;
-  <% } else { %>
-  type ExportedQuery<T> = IsSearchParams<T> extends true ? T : URLSearchParamsInit;
-  <% } %>
-
-  export interface Routes {
-  <% routes.forEach(({ route, params, fileName }) => { %>
-    "<%- route %>": {
-      params: <% if (params.length > 0) { %>{
-        <% params.forEach(param => { %><%- param %>: string | number;<% }) %>
-      } <% } else { %>never<% } %>,
-      query: ExportedQuery<import('<%- relativeAppDirPath %>/<%- fileName %>').SearchParams>,
-    };
-  <% }) %>
-  }
+  ${exportedQuery(ctx)}
+  ${routes(ctx)}
 
   type RoutesWithParams = Pick<
     Routes,
@@ -26,8 +46,7 @@ export const template = `declare module "remix-routes" {
     }[keyof Routes]
   >;
 
-  export type RouteId =<% routeIds.forEach((routeId) => { %>
-    | '<%- routeId %>'<% }) %>;
+  ${RouteId(ctx)}
 
   export function $path<
     Route extends keyof Routes,
@@ -51,3 +70,4 @@ export const template = `declare module "remix-routes" {
 
   export function $routeId(routeId: RouteId): RouteId;
 }`;
+};

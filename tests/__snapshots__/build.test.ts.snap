@@ -5,175 +5,90 @@ exports[`gen route types 1`] = `
   type URLSearchParamsInit = string | string[][] | Record<string, string> | URLSearchParams;
   // symbol won't be a key of SearchParams
   type IsSearchParams<T> = symbol extends keyof T ? false : true;
-  
   type ExportedQuery<T> = IsSearchParams<T> extends true ? T : URLSearchParamsInit;
-  
-
   export interface Routes {
-  
     "/": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/root').SearchParams>,
-    };
-  
-    "/:lang?/about": {
-      params: {
-        lang?: string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/($lang).about').SearchParams>,
-    };
-  
-    "/admin": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/admin._index').SearchParams>,
-    };
-  
-    "/admin/episodes": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/admin.episodes._index').SearchParams>,
-    };
-  
-    "/admin/episodes/:id": {
-      params: {
-        id: string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/admin.episodes.$id._index').SearchParams>,
-    };
-  
-    "/admin/episodes/:id/comments": {
-      params: {
-        id: string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/admin.episodes.$id.comments').SearchParams>,
-    };
-  
-    "/admin/episodes/new": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/admin.episodes.new').SearchParams>,
-    };
-  
-    "/api/:id.json": {
-      params: {
-        id: string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/api.$id[.]json').SearchParams>,
-    };
-  
-    "/auth": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/auth._auth').SearchParams>,
-    };
-  
-    "/auth/login": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/auth._auth.login').SearchParams>,
-    };
-  
-    "/blog/rss.xml": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/blog.rss[.]xml').SearchParams>,
-    };
-  
-    "/chats/:season/:episode": {
-      params: {
-        season: string | number;episode: string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/chats_.$season.$episode').SearchParams>,
-    };
-  
-    "/chats/:season/:episode/:slug": {
-      params: {
-        season: string | number;episode: string | number;slug: string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/chats_.$season.$episode.$slug').SearchParams>,
-    };
-  
-    "/credits": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/credits').SearchParams>,
-    };
-  
-    "/home": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/(static).home').SearchParams>,
-    };
-  
-    "/jokes": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/jokes._index').SearchParams>,
-    };
-  
-    "/jokes/:jokeId": {
-      params: {
-        jokeId: string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/jokes.$jokeId').SearchParams>,
-    };
-  
-    "/people/:personId": {
-      params: {
-        personId: string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/people.$personId').SearchParams>,
-    };
-  
-    "/people/:personId/:planId/remove-plan": {
-      params: {
-        personId: string | number;planId: string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/people.$personId.$planId.remove-plan').SearchParams>,
-    };
-  
-    "/posts": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/posts._index').SearchParams>,
-    };
-  
-    "/posts/:id": {
-      params: {
-        id: string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/posts.$id').SearchParams>,
-    };
-  
-    "/posts/*": {
-      params: {
-        "*": string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/posts.$').SearchParams>,
-    };
-  
-    "/posts/delete": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/posts.delete').SearchParams>,
-    };
-  
-    "/s/:query": {
-      params: {
-        query: string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/s.$query').SearchParams>,
-    };
-  
-    "/sign-in/*": {
-      params: {
-        "*": string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/sign-in.$').SearchParams>,
-    };
-  
-    "/somewhere/cool/*": {
-      params: {
-        "*": string | number;
-      } ,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/catchall').SearchParams>,
-    };
-  
-    "/static/home": {
-      params: never,
-      query: ExportedQuery<import('../../../remix-routes-main/packages/remix-routes/fixture/v2/app/routes/(static).home').SearchParams>,
-    };
-  
+        params: never,
+        query: ExportedQuery<import('../app/root').SearchParams>,
+      };,"/:lang?/about": {
+        params: {lang?: string | number},
+        query: ExportedQuery<import('../app/routes/($lang).about').SearchParams>,
+      };,"/admin": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/admin._index').SearchParams>,
+      };,"/admin/episodes": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/admin.episodes._index').SearchParams>,
+      };,"/admin/episodes/:id": {
+        params: {id: string | number},
+        query: ExportedQuery<import('../app/routes/admin.episodes.$id._index').SearchParams>,
+      };,"/admin/episodes/:id/comments": {
+        params: {id: string | number},
+        query: ExportedQuery<import('../app/routes/admin.episodes.$id.comments').SearchParams>,
+      };,"/admin/episodes/new": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/admin.episodes.new').SearchParams>,
+      };,"/api/:id.json": {
+        params: {id: string | number},
+        query: ExportedQuery<import('../app/routes/api.$id[.]json').SearchParams>,
+      };,"/auth": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/auth._auth').SearchParams>,
+      };,"/auth/login": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/auth._auth.login').SearchParams>,
+      };,"/blog/rss.xml": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/blog.rss[.]xml').SearchParams>,
+      };,"/chats/:season/:episode": {
+        params: {season: string | number; episode: string | number},
+        query: ExportedQuery<import('../app/routes/chats_.$season.$episode').SearchParams>,
+      };,"/chats/:season/:episode/:slug": {
+        params: {season: string | number; episode: string | number; slug: string | number},
+        query: ExportedQuery<import('../app/routes/chats_.$season.$episode.$slug').SearchParams>,
+      };,"/credits": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/credits').SearchParams>,
+      };,"/home": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/(static).home').SearchParams>,
+      };,"/jokes": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/jokes._index').SearchParams>,
+      };,"/jokes/:jokeId": {
+        params: {jokeId: string | number},
+        query: ExportedQuery<import('../app/routes/jokes.$jokeId').SearchParams>,
+      };,"/people/:personId": {
+        params: {personId: string | number},
+        query: ExportedQuery<import('../app/routes/people.$personId').SearchParams>,
+      };,"/people/:personId/:planId/remove-plan": {
+        params: {personId: string | number; planId: string | number},
+        query: ExportedQuery<import('../app/routes/people.$personId.$planId.remove-plan').SearchParams>,
+      };,"/posts": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/posts._index').SearchParams>,
+      };,"/posts/:id": {
+        params: {id: string | number},
+        query: ExportedQuery<import('../app/routes/posts.$id').SearchParams>,
+      };,"/posts/*": {
+        params: {"*": string | number},
+        query: ExportedQuery<import('../app/routes/posts.$').SearchParams>,
+      };,"/posts/delete": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/posts.delete').SearchParams>,
+      };,"/s/:query": {
+        params: {query: string | number},
+        query: ExportedQuery<import('../app/routes/s.$query').SearchParams>,
+      };,"/sign-in/*": {
+        params: {"*": string | number},
+        query: ExportedQuery<import('../app/routes/sign-in.$').SearchParams>,
+      };,"/somewhere/cool/*": {
+        params: {"*": string | number},
+        query: ExportedQuery<import('../app/catchall').SearchParams>,
+      };,"/static/home": {
+        params: never,
+        query: ExportedQuery<import('../app/routes/(static).home').SearchParams>,
+      };
   }
 
   type RoutesWithParams = Pick<
@@ -183,36 +98,7 @@ exports[`gen route types 1`] = `
     }[keyof Routes]
   >;
 
-  export type RouteId =
-    | 'catchall'
-    | 'root'
-    | 'routes/($lang).about'
-    | 'routes/(static).home'
-    | 'routes/admin'
-    | 'routes/admin._index'
-    | 'routes/admin.episodes._index'
-    | 'routes/admin.episodes.$id'
-    | 'routes/admin.episodes.$id._index'
-    | 'routes/admin.episodes.$id.comments'
-    | 'routes/admin.episodes.new'
-    | 'routes/api.$id[.]json'
-    | 'routes/auth._auth'
-    | 'routes/auth._auth.login'
-    | 'routes/blog.rss[.]xml'
-    | 'routes/chats_.$season.$episode'
-    | 'routes/chats_.$season.$episode.$slug'
-    | 'routes/credits'
-    | 'routes/jokes'
-    | 'routes/jokes._index'
-    | 'routes/jokes.$jokeId'
-    | 'routes/people.$personId'
-    | 'routes/people.$personId.$planId.remove-plan'
-    | 'routes/posts._index'
-    | 'routes/posts.$'
-    | 'routes/posts.$id'
-    | 'routes/posts.delete'
-    | 'routes/s.$query'
-    | 'routes/sign-in.$';
+  export type RouteId = catchall | root | routes/($lang).about | routes/(static).home | routes/admin | routes/admin._index | routes/admin.episodes._index | routes/admin.episodes.$id | routes/admin.episodes.$id._index | routes/admin.episodes.$id.comments | routes/admin.episodes.new | routes/api.$id[.]json | routes/auth._auth | routes/auth._auth.login | routes/blog.rss[.]xml | routes/chats_.$season.$episode | routes/chats_.$season.$episode.$slug | routes/credits | routes/jokes | routes/jokes._index | routes/jokes.$jokeId | routes/people.$personId | routes/people.$personId.$planId.remove-plan | routes/posts._index | routes/posts.$ | routes/posts.$id | routes/posts.delete | routes/s.$query | routes/sign-in.$;
 
   export function $path<
     Route extends keyof Routes,

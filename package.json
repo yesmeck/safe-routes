@@ -41,7 +41,6 @@
   "license": "MIT",
   "devDependencies": {
     "@react-router/dev": "^7.0.1",
-    "@types/ejs": "^3.1.5",
     "@types/mkdirp": "^2.0.0",
     "@types/node": "^22.9.3",
     "semantic-release": "^24.2.0",
@@ -50,8 +49,6 @@
     "vitest": "^2.1.5"
   },
   "dependencies": {
-    "dedent": "^1.5.3",
-    "ejs": "^3.1.10",
     "meow": "13.2.0",
     "mkdirp": "^3.0.1",
     "slash": "3",
