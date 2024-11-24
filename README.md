@@ -124,6 +124,7 @@ import { $routeId } from 'safe-routes';
 
 export default function Post() {
   const postList = useRouteLoaderData<typeof postsLoader>($routeId('routes/posts/_layout'));
+}
 ```
 
 ### Basename support
