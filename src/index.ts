@@ -55,13 +55,6 @@ export function $path(route: string, ...paramsOrQuery: Array<any>) {
   return prependBasename(path + '?' + searchParams.toString());
 }
 
-export function $params(
-  _route: string,
-  params: { readonly [key: string]: string | undefined },
-) {
-  return params;
-}
-
 export function $routeId(routeId: string) {
   return routeId;
 }

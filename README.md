@@ -110,25 +110,6 @@ export const loader = async (request) => {
 }
 ```
 
-### Checking params
-
-```typescript
-import { useParams } from "react-router";
-import { $params } from 'safe-routes'; // <-- Import $params helper.
-
-export const action = async ({ params }) => {
-  const { id } = $params("/posts/:id/update", params) // <-- It's type safe, try renaming `id` param.
-
-  // ...
-}
-
-export default function Component() {
-  const params = useParams();
-  const { id } = $params("/posts/:id/update", params);
-  ...
-}
-```
-
 ### $routeId helper for useRouteLoaderData route ids
 
 safe-routes exports the `RouteId` type definition with the list of all valid route ids for your repository, and has a helper function `$routeId` that tells typescript to restrict the given string to one of the valid RouteId values.
