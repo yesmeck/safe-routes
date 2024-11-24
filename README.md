@@ -7,10 +7,11 @@ Type-safe helper for manipulating internal links in your React Router apps.
 
 ## Features
 
-- [Typed URL generation](#typed-url-generation).
-- [Typed query string](#typed-query-string).
-- [Typed route ids](#typed-route-ids).
-- [Basename support](#basename-support).
+- [Typed URL generation](#typed-url-generation)
+- [Appending query string](#appending-query-string)
+- [Typed query string](#typed-query-string)
+- [Typed route ids](#typed-route-ids)
+- [Basename support](#basename-support)
 
 ## Installation
 
