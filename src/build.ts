@@ -1,12 +1,9 @@
-import { type Preset } from '@react-router/dev/config';
 import * as fs from 'fs';
 import { mkdirp } from 'mkdirp';
 import * as path from 'path';
 import slash from 'slash';
 import { template } from './template.js';
-
-type RequiredReactRouterConfig = Pick<Parameters<Required<Preset>['reactRouterConfigResolved']>[number]['reactRouterConfig'], 'appDirectory' | 'routes'>;
-type RouteManifestEntry = RequiredReactRouterConfig['routes'][string];
+import type { RequiredReactRouterConfig, RouteManifestEntry } from './types.js';
 
 interface Options {
   strict?: boolean;
@@ -19,7 +16,7 @@ type RoutesInfo = Record<string, {
   params: string[];
 }>
 
-export const DEFAULT_OUTPUT_DIR_PATH = './node_modules'
+export const DEFAULT_OUTPUT_DIR_PATH = './.react-router/types'
 
 async function buildHelpers(config: RequiredReactRouterConfig): Promise<RoutesInfo> {
   const routesInfo: RoutesInfo = {};

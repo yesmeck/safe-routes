@@ -5,6 +5,12 @@
 
 Type-safe helper for manipulating internal links in your React Router apps.
 
+## Features
+
+- Type-safe URL generation.
+- Type-safe query string.
+- Basename support.
+
 ## Installation
 
 ```bash

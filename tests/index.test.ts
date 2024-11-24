@@ -1,5 +1,10 @@
-import { test, expect } from 'vitest';
+import { test, expect, vi } from 'vitest';
 import { $path, $params } from '../src';
+import * as basename from '../src/basename.ts';
+
+vi.mock(import('../src/basename.ts'));
+
+vi.mocked(basename.resolveBasename).mockReturnValue('');
 
 test('$path', () => {
   expect($path('/posts')).toBe('/posts');
@@ -50,4 +55,10 @@ test('optional segment', () => {
 
 test('$params', () => {
   expect($params('/posts/:id', { id: '1' })).toStrictEqual({ id: '1' });
+});
+
+test('basename', async () => {
+  vi.mocked(basename.resolveBasename).mockReturnValue('/blog');
+
+  expect($path('/posts')).toBe("/blog/posts");
 });

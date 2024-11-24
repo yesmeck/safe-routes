@@ -11,9 +11,13 @@
     "safe-routes": "dist/cli.js"
   },
   "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.d.ts"
+    },
     "./vite": {
       "import": "./dist/vite.js",
-      "require": "./dist/vite..d.ts"
+      "require": "./dist/vite.d.ts"
     }
   },
   "files": [
@@ -49,6 +53,7 @@
     "vitest": "^2.1.5"
   },
   "dependencies": {
+    "@rollup/plugin-replace": "^6.0.1",
     "meow": "13.2.0",
     "mkdirp": "^3.0.1",
     "slash": "3",

@@ -35,7 +35,7 @@ function routes(ctx: Context) {
 }
 
 export function template(ctx: Context) {
-  return `declare module "remix-routes" {
+  return `declare module "safe-routes" {
   type URLSearchParamsInit = string | string[][] | Record<string, string> | URLSearchParams;
   // symbol won't be a key of SearchParams
   type IsSearchParams<T> = symbol extends keyof T ? false : true;

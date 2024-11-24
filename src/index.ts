@@ -1,5 +1,15 @@
+import { resolveBasename } from './basename.js';
+
 function includesParams(route: string) {
   return route.indexOf('/:') > -1 || route.indexOf('/*') > -1;
+}
+
+function prependBasename(path: string) {
+  const basename = resolveBasename();
+  if (!basename) {
+    return path;
+  }
+  return basename + path;
 }
 
 export function $path(route: string, ...paramsOrQuery: Array<any>) {
@@ -36,12 +46,13 @@ export function $path(route: string, ...paramsOrQuery: Array<any>) {
   }
 
   if (!query) {
-    return path;
+    return prependBasename(path);
   }
 
   const searchParams = new URLSearchParams(query);
 
-  return path + '?' + searchParams.toString();
+
+  return prependBasename(path + '?' + searchParams.toString());
 }
 
 export function $params(

@@ -1,19 +1,28 @@
+import replace from '@rollup/plugin-replace';
 import * as Vite from 'vite';
+import { placeholder } from './basename.js';
 import { DEFAULT_OUTPUT_DIR_PATH, build } from './build.js';
+import { ReactRouterPluginContext } from './types.js';
 
-interface PluginConfig {
+export interface PluginOptions {
   strict?: boolean;
   outDir?: string;
 }
 
-const ReactRouterPluginContextName = '__reactRouterPluginContext';
+function extractReactRouterPluginContext(config: Vite.UserConfig | Vite.ResolvedConfig) {
+  const reactRouterPluginContextName = '__reactRouterPluginContext';
+  if (reactRouterPluginContextName in config) {
+    return config[reactRouterPluginContextName] as ReactRouterPluginContext;
+  }
+  return null;
+}
 
-export function safeRoutes(pluginConfig: PluginConfig = {}): Vite.Plugin {
+export function safeRoutes(pluginConfig: PluginOptions = {}): Vite.Plugin {
   let reactRouterPlugin: any;
-  let rootDirectory: string
+  let rootDirectory: string;
   let viteUserConfig: Vite.UserConfig;
   let viteConfigEnv: Vite.ConfigEnv;
-  let ctx: any;
+  let ctx: ReactRouterPluginContext | null;
 
   function generateTypeFile() {
     if (!ctx) {
@@ -24,26 +33,29 @@ export function safeRoutes(pluginConfig: PluginConfig = {}): Vite.Plugin {
 
   async function reloadCtx() {
     const config = await reactRouterPlugin.config(viteUserConfig, viteConfigEnv);
-    ctx = (config as any)[ReactRouterPluginContextName];
+    ctx = extractReactRouterPluginContext(config);
   }
 
   return {
     name: 'safe-routes',
     enforce: 'post',
-    apply: 'build',
     config(_viteUserConfig, _viteConfigEnv) {
       viteUserConfig = _viteUserConfig;
       viteConfigEnv = _viteConfigEnv;
+      if (ctx && ctx.reactRouterConfig.basename) {
+        console.log({ placeholder, basename: ctx.reactRouterConfig.basename });
+        viteUserConfig.plugins?.push(replace.default({
+          [placeholder]: ctx.reactRouterConfig.basename,
+        }));
+      }
     },
     configResolved(config) {
-      console.log('configResolved');
       reactRouterPlugin = config.plugins.find((plugin) => plugin.name === 'react-router');
       if (!reactRouterPlugin) {
-        console.warn('react-router plugin not found.');
         return;
       }
       rootDirectory = config.root;
-      ctx = (config as any)[ReactRouterPluginContextName];
+      ctx = extractReactRouterPluginContext(config);
       generateTypeFile();
     },
     async watchChange(id, change) {
@@ -56,5 +68,5 @@ export function safeRoutes(pluginConfig: PluginConfig = {}): Vite.Plugin {
       await reloadCtx();
       generateTypeFile();
     },
-  }
+  };
 }

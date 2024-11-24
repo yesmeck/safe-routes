@@ -1,10 +1,9 @@
 import * as fs from 'node:fs';
-import * as path from 'node:path';
 import * as os from 'node:os';
+import * as path from 'node:path';
 import { expect, test } from 'vitest';
 import { build } from '../src/build';
-import { testRoutes } from './config';
-
+import { testRoutes } from './fixture';
 
 test('gen route types', async () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'safe-routes-'));

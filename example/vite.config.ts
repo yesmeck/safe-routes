@@ -6,6 +6,7 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { safeRoutes } from 'safe-routes/vite';
 
 export default defineConfig({
+  base: "/blog",
   css: {
     postcss: {
       plugins: [tailwindcss, autoprefixer],
