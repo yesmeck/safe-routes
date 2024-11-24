@@ -1,7 +1,7 @@
 # safe-routes
 
 > [!note]
-> remix-routes has been renamed to safe-routes. If you are looking for the documentation of remix-routes, please refer to [here](https://github.com/metricat/playground/issues/new).
+> remix-routes has been renamed to safe-routes. If you are looking for the documentation of remix-routes, please refer to [here](https://github.com/yesmeck/remix-routes/tree/remix-routes).
 
 Type-safe helper for manipulating internal links in your React Router apps.
 
