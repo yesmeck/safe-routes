@@ -129,7 +129,7 @@ export default function Post() {
 
 ### Basename support
 
-Basename is supported out of the box. If have set a basename in your `vite.config.ts` and `react-router.config.ts`, safe-routes will automatically prepend the basename to the generated URLs.
+Basename is supported out of the box. If you have set a basename in your `vite.config.ts` and `react-router.config.ts`, safe-routes will automatically prepend the basename to the generated URLs.
 
 ```typescript
 // react-router.config.ts
