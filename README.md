@@ -7,9 +7,10 @@ Type-safe helper for manipulating internal links in your React Router apps.
 
 ## Features
 
-- Type-safe URL generation.
-- Type-safe query string.
-- Basename support.
+- [Typed URL generation](#typed-url-generation).
+- [Typed query string](#typed-query-string).
+- [Typed route ids](#typed-route-ids).
+- [Basename support](#basename-support).
 
 ## Installation
 
@@ -41,7 +42,7 @@ Supported config options:
 
 ## Usage
 
-### Basic usage
+### Typed URL generation
 
 ```typescript
 import { redirect } from 'react-router';
@@ -110,7 +111,7 @@ export const loader = async (request) => {
 }
 ```
 
-### $routeId helper for useRouteLoaderData route ids
+### Typed route ids
 
 safe-routes exports the `RouteId` type definition with the list of all valid route ids for your repository, and has a helper function `$routeId` that tells typescript to restrict the given string to one of the valid RouteId values.
 
@@ -124,10 +125,24 @@ export default function Post() {
   const postList = useRouteLoaderData<typeof postsLoader>($routeId('routes/posts/_layout'));
 ```
 
-## Command Line Options
+### Basename support
 
-- `-s`: Enale strict mode. In strict mode only routes that define `SearchParams` type are allowed to have query string.
-- `-o`: Specify the output path for `safe-routes.d.ts`. Defaults to `./node_modules` if arg is not given.
+Basename is supported out of the box. If have set a basename in your `vite.config.ts` and `react-router.config.ts`, safe-routes will automatically prepend the basename to the generated URLs.
+
+```typescript
+// react-router.config.ts
+import type { Config } from "@react-router/dev/config";
+
+export default {
+  basename: "/blog",
+} satisfies Config;
+```
+
+```typescript
+import { $path } from 'safe-routes';
+
+$path('/posts/:id', { id: 6 }); // => /blog/posts/6
+```
 
 ## License
 
