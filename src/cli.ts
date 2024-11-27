@@ -8,4 +8,11 @@ async function run() {
   await server.close();
 }
 
+const command = process.argv[2];
+
+if (!command || command !== 'typegen') {
+  console.log('Usage: safe-routes typegen');
+  process.exit(1);
+}
+
 run();
