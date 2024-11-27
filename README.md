@@ -47,6 +47,13 @@ Supported config options:
 - `strict: boolean`
 - `outDir: string`
 
+Add `safe-routes typegen` to the `typecheck` script:
+
+```patch
+- "typecheck": "react-router typegen && tsc --build --noEmit"
++ "typecheck": "react-router typegen && safe-routes typegen && tsc --build --noEmit"
+```
+
 ## Usage
 
 ### Typed URL generation
