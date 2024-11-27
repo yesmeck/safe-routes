@@ -1,9 +1,11 @@
 # safe-routes
 
+Type-safe helper for manipulating internal links in your React Router apps.
+
 > [!note]
 > remix-routes has been renamed to safe-routes. If you are looking for the documentation of remix-routes, please refer to [here](https://github.com/yesmeck/remix-routes/tree/remix-routes).
-
-Type-safe helper for manipulating internal links in your React Router apps.
+>
+> Please refer to the [upgrading guide](https://github.com/yesmeck/safe-routes/releases/tag/v1.0.0) if you are upgrading from remix-routes.
 
 ## Highlights
 
