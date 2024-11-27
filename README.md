@@ -1,32 +1,43 @@
-# remix-routes
+# safe-routes
 
-`remix-routes` automatically generates typesafe helper functions for manipulating internal links in your Remix apps.
+> [!note]
+> remix-routes has been renamed to safe-routes. If you are looking for the documentation of remix-routes, please refer to [here](https://github.com/yesmeck/remix-routes/tree/remix-routes).
 
-https://user-images.githubusercontent.com/465125/205243864-3493733d-8586-405f-94eb-088fdb87fd23.mp4
+Type-safe helper for manipulating internal links in your React Router apps.
 
-`remix-routes` also works with [`remix-modules`](https://github.com/yesmeck/remix-modules).
+## Features
+
+- [safe-routes](#safe-routes)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Setup](#setup)
+  - [Usage](#usage)
+    - [Typed URL generation](#typed-url-generation)
+    - [Appending query string](#appending-query-string)
+    - [Typed query string](#typed-query-string)
+    - [Typed route ids](#typed-route-ids)
+    - [Basename support](#basename-support)
+  - [License](#license)
 
 ## Installation
 
 ```bash
-$ npm add remix-routes
+$ npm add safe-routes
 ```
 
 ## Setup
 
-### With Vite
-
-Add `remix-routes` plugin to your `vite.config.ts`:
+Add `safeRoutes` plugin to your `vite.config.ts`:
 
 ```javascript
 import { defineConfig } from "vite";
-import { vitePlugin as remix } from "@remix-run/dev";
-import { remixRoutes } from "remix-routes/vite";
+import { reactRouter } from "@react-router/dev/vite";
+import { safeRoutes } from 'safe-routes/vite';
 
 export default defineConfig({
   plugins: [
-    remix(),
-    remixRoutes(options?)
+    reactRouter(),
+    safeRoutes(),
   ],
 });
 ```
@@ -36,44 +47,15 @@ Supported config options:
 - `strict: boolean`
 - `outDir: string`
 
-### Without Vite
-
-Add `remix-routes` to your dev and build script in `package.json`.
-
-**With [`concurrently`](https://www.npmjs.com/package/concurrently) package:**
-
-```json
-{
-  "scripts": {
-    "build": "remix-routes && remix build",
-    "dev": "concurrently \"remix-routes -w\" \"remix dev\""
-  }
-}
-```
-
-**With [`npm-run-all`](https://www.npmjs.com/package/npm-run-all) package:**
-
-```json
-{
-  "scripts": {
-    "build": "run-s build:*",
-    "build:routes": "remix-routes",
-    "dev": "run-p dev:*",
-    "dev:routes": "remix-routes -w",
-  }
-}
-```
-
 ## Usage
 
-### Basic usage
+### Typed URL generation
 
 ```typescript
-import type { ActionFunction } from 'remix';
-import { redirect } from 'remix';
-import { $path } from 'remix-routes'; // <-- Import magical $path helper from remix-routes.
+import { redirect } from 'react-router';
+import { $path } from 'safe-routes'; // <-- Import magical $path helper from safe-routes.
 
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }) => {
   let formData = await request.formData();
   const post = await createPost(formData);
 
@@ -81,10 +63,10 @@ export const action: ActionFunction = async ({ request }) => {
 };
 ```
 
-### Appending query string:
+### Appending query string
 
 ```typescript
-import { $path } from 'remix-routes';
+import { $path } from 'safe-routes';
 
 $path('/posts/:id', { id: 6 }, { version: 18 }); // => /posts/6?version=18
 $path('/posts', { limit: 10 }); // => /posts?limit=10
@@ -92,7 +74,7 @@ $path('/posts', { limit: 10 }); // => /posts?limit=10
 $path('/posts/delete', [['id', 1], ['id', 2]]); // => /posts/delete?id=1&id=2
 ```
 
-### Typed query string:
+### Typed query string
 
 Define type of query string by exporting a type named `SearchParams` in route file:
 
@@ -107,7 +89,7 @@ export type SearchParams = {
 ```
 
 ```typescript
-import { $path } from 'remix-routes';
+import { $path } from 'safe-routes';
 
 // The query string is type-safe.
 $path('/posts', { view: 'list', sort: 'date', page: 1 });
@@ -136,76 +118,39 @@ export const loader = async (request) => {
 }
 ```
 
-### Checking params:
+### Typed route ids
+
+safe-routes exports the `RouteId` type definition with the list of all valid route ids for your repository, and has a helper function `$routeId` that tells typescript to restrict the given string to one of the valid RouteId values.
 
 ```typescript
-import type { ActionFunction } from 'remix';
-import { useParams } from "remix";
-import { $params } from 'remix-routes'; // <-- Import $params helper.
-
-export const action: ActionFunction = async ({ params }) => {
-  const { id } = $params("/posts/:id/update", params) // <-- It's type safe, try renaming `id` param.
-
-  // ...
-}
-
-export default function Component() {
-  const params = useParams();
-  const { id } = $params("/posts/:id/update", params);
-  ...
-}
-```
-
-### $routeId helper for useRouteLoaderData route ids
-
-remix-routes exports the `RouteId` type definition with the list of all valid route ids for your repository, and has a helper function `$routeId` that tells typescript to restrict the given string to one of the valid RouteId values.
-
-```typescript
-import type { RouteId } from 'remix-routes';
+import type { RouteId } from 'safe-routes';
 import type { loader as postsLoader } from './_layout.tsx';
-import { useRouteLoaderData } from '@remix-run/react';
-import { $routeId } from 'remix-routes';
+import { useRouteLoaderData } from 'react-router';
+import { $routeId } from 'safe-routes';
 
 export default function Post() {
   const postList = useRouteLoaderData<typeof postsLoader>($routeId('routes/posts/_layout'));
-```
-
-## Command Line Options
-
-- `-w`: Watch for changes and automatically rebuild.
-- `-s`: Enale strict mode. In strict mode only routes that define `SearchParams` type are allowed to have query string.
-- `-o`: Specify the output path for `remix-routes.d.ts`. Defaults to `./node_modules` if arg is not given.
-
-## TypeScript Integration
-
-A TypeScript plugin is available to help you navigate between route files.
-
-### Installation
-
-```bash
-$ npm add -D typescript-remix-routes-plugin
-```
-
-### Setup
-
-Add the plugin to your `tsconfig.json`:
-
-```json
-{
-  "compilerOptions": {
-    "plugins": [
-      {
-        "name": "typescript-remix-routes-plugin"
-      }
-    ]
-  }
 }
 ```
 
-Select workspace version of TypeScript in VSCode:
+### Basename support
 
-<img width="685" alt="Screenshot 2022-12-02 at 5 56 39 pm" src="https://user-images.githubusercontent.com/465125/205244385-e8051e71-1fda-417a-80a5-107f551d4bcf.png">
+Basename is supported out of the box. If you have set a basename in your `vite.config.ts` and `react-router.config.ts`, safe-routes will automatically prepend the basename to the generated URLs.
 
+```typescript
+// react-router.config.ts
+import type { Config } from "@react-router/dev/config";
+
+export default {
+  basename: "/blog",
+} satisfies Config;
+```
+
+```typescript
+import { $path } from 'safe-routes';
+
+$path('/posts/:id', { id: 6 }); // => /blog/posts/6
+```
 
 ## License
 
