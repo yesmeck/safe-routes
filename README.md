@@ -5,7 +5,7 @@
 
 Type-safe helper for manipulating internal links in your React Router apps.
 
-## Hignligts
+## Highlights
 
 - [Typed URL generation](#typed-url-generation)
 - [Appending query string](#appending-query-string)
