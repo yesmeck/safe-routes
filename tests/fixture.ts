@@ -172,6 +172,18 @@ export const testRoutes =
     path: "jokes",
     parentId: "root",
   },
+  "routes/blog": {
+    file: "routes/blog.tsx",
+    id: "routes/blog",
+    path: "blog",
+    parentId: "root",
+  },
+  "routes/blog._index": {
+    file: "routes/blog._index.tsx",
+    id: "routes/blog._index",
+    path: undefined,
+    parentId: "routes/blog",
+  },
   catchall: {
     path: "/somewhere/cool/*",
     index: undefined,

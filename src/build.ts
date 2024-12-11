@@ -11,15 +11,15 @@ interface Options {
 }
 
 type RoutesInfo = Record<string, {
-  id: string;
   fileName: string;
   params: string[];
 }>
 
 export const DEFAULT_OUTPUT_DIR_PATH = './.react-router/types'
 
-async function buildHelpers(config: RequiredReactRouterConfig): Promise<RoutesInfo> {
+async function buildHelpers(config: RequiredReactRouterConfig): Promise<[RoutesInfo, string[]]> {
   const routesInfo: RoutesInfo = {};
+  const routeIds: string[] = [];
   const handleRoutesRecursive = (
     parentId?: string,
     parentPath: RouteManifestEntry[] = [],
@@ -29,9 +29,9 @@ async function buildHelpers(config: RequiredReactRouterConfig): Promise<RoutesIn
     );
     routes.forEach((route) => {
       let currentPath = parentPath;
+      routeIds.push(route.id);
       if (route.id === 'root') {
         routesInfo['/'] = {
-          id: route.id,
           fileName: route.file,
           params: [],
         };
@@ -46,7 +46,6 @@ async function buildHelpers(config: RequiredReactRouterConfig): Promise<RoutesIn
         // account optional segments that aren't params/dynamic.
         for (const pathVariant of expandOptionalStaticSegments(fullPath)) {
           routesInfo[pathVariant] = {
-            id: route.id,
             fileName: route.file,
             params: paramsNames
           };
@@ -56,7 +55,7 @@ async function buildHelpers(config: RequiredReactRouterConfig): Promise<RoutesIn
     });
   };
   handleRoutesRecursive();
-  return routesInfo;
+  return [routesInfo, routeIds];
 }
 
 function expandOptionalStaticSegments(path: string) {
@@ -80,11 +79,11 @@ function expandOptionalStaticSegments(path: string) {
 }
 
 export async function build(root: string, config: RequiredReactRouterConfig, options: Options) {
-  const routesInfo = await buildHelpers(config);
-  generate(root, config, routesInfo, options);
+  const [routesInfo, routeIds] = await buildHelpers(config);
+  generate(root, config, routesInfo, routeIds, options);
 }
 
-function generate(root: string, config: RequiredReactRouterConfig, routesInfo: RoutesInfo, options: Options) {
+function generate(root: string, config: RequiredReactRouterConfig, routesInfo: RoutesInfo, routeIds: string[], options: Options) {
   const outputPath = path.join(
     root,
     options.outputDirPath,
@@ -93,8 +92,8 @@ function generate(root: string, config: RequiredReactRouterConfig, routesInfo: R
   const tsCode = template({
     strict: options.strict,
     relativeAppDirPath,
-    routes: Object.entries(routesInfo).map(([route, { id, fileName, params }]) => ({
-      id,
+    routeIds,
+    routes: Object.entries(routesInfo).map(([route, { fileName, params }]) => ({
       route,
       params,
       fileName: slash(fileName.replace(/\.tsx?$/, '')),
