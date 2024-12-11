@@ -1,8 +1,8 @@
 interface Context {
   strict?: boolean;
   relativeAppDirPath: string;
+  routeIds: string[];
   routes: Array<{
-    id: string,
     route: string;
     params: string[];
     fileName: string;
@@ -21,9 +21,8 @@ function exportedQuery(ctx: Context) {
 }
 
 function routes(ctx: Context) {
-  const routes = ctx.routes.map(({ id, route, params, fileName }) =>
+  const routes = ctx.routes.map(({ route, params, fileName }) =>
     `"${route}": {
-      id: '${id}',
       params: ${params.length > 0 ? `{${params.map(param => `${param}: string | number`).join('; ')}}` : 'never'},
       query: ExportedQuery<import('${ctx.relativeAppDirPath}/${fileName}').SearchParams>,
     }`
@@ -32,6 +31,11 @@ function routes(ctx: Context) {
   return `export interface Routes {
     ${routes.join(',\n' + indent(2))}
   }`
+}
+
+function routeIds(ctx: Context) {
+  return `export type RouteId =
+            | ${ctx.routeIds.map(routeId => `'${routeId}'`).join(`\n${indent(6)}| `)};`;
 }
 
 export function template(ctx: Context) {
@@ -51,7 +55,7 @@ export function template(ctx: Context) {
     }[keyof Routes]
   >;
 
-  export type RouteId = Routes[keyof Routes]['id'];
+  ${routeIds(ctx)}
 
   export function $path<
     Route extends keyof Routes,
