@@ -9,10 +9,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [20.x, 22.x]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
 
@@ -30,5 +30,3 @@ jobs:
 
       - name: Test
         run: npm test
-
-      - run: pnpx pkg-pr-new publish
