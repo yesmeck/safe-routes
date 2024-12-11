@@ -21,9 +21,9 @@ function exportedQuery(ctx: Context) {
 }
 
 function routes(ctx: Context) {
-  const routes = ctx.routes.map(({ route, params, fileName }) =>
+  const routes = ctx.routes.map(({ id, route, params, fileName }) =>
     `"${route}": {
-      id: '${route}',
+      id: '${id}',
       params: ${params.length > 0 ? `{${params.map(param => `${param}: string | number`).join('; ')}}` : 'never'},
       query: ExportedQuery<import('${ctx.relativeAppDirPath}/${fileName}').SearchParams>,
     }`
