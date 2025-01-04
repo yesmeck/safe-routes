@@ -6,6 +6,7 @@ async function run() {
   const { runner, server } = await createContext();
   await runner.executeFile(path.resolve(import.meta.dirname, '../dist/empty.js'));
   await server.close();
+  process.exit(0);
 }
 
 const command = process.argv[2];
