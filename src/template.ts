@@ -69,14 +69,6 @@ export function template(ctx: Context) {
       : [route: Route, params: Rest["params"], query?: Rest["query"]]
   ): string;
 
-  export function $params<
-    Route extends keyof RoutesWithParams,
-    Params extends RoutesWithParams[Route]["params"]
-  >(
-      route: Route,
-      params: { readonly [key: string]: string | undefined }
-  ): {[K in keyof Params]: string};
-
   export function $routeId(routeId: RouteId): RouteId;
 }`;
 };
