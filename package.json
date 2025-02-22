@@ -52,7 +52,6 @@
   },
   "dependencies": {
     "@rollup/plugin-replace": "^6.0.1",
-    "meow": "13.2.0",
     "mkdirp": "^3.0.1",
     "slash": "3",
     "vite-node": "^3.0.6"

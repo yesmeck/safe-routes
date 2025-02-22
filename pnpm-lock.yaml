@@ -11,9 +11,6 @@ importers:
       '@rollup/plugin-replace':
         specifier: ^6.0.1
         version: 6.0.1(rollup@4.34.8)
-      meow:
-        specifier: 13.2.0
-        version: 13.2.0
       mkdirp:
         specifier: ^3.0.1
         version: 3.0.1
@@ -4672,10 +4669,6 @@ packages:
   media-typer@0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
-
-  meow@13.2.0:
-    resolution: {integrity: sha512-pxQJQzB6djGPXh08dacEloMFopsOqGVRKFPYvPOt9XDZ1HasbgDZA74CJGreSU4G3Ak7EFJGoiH2auq+yXISgA==}
-    engines: {node: '>=18'}
 
   meow@8.1.2:
     resolution: {integrity: sha512-r85E3NdZ+mpYk1C6RjPFEMSE+s1iZMuHtsHAqY0DT3jZczl0diWUZ8g6oU7h0M9cD2EL+PzaYghhCLzR0ZNn5Q==}
@@ -11976,8 +11969,6 @@ snapshots:
       '@babel/runtime': 7.20.7
 
   media-typer@0.3.0: {}
-
-  meow@13.2.0: {}
 
   meow@8.1.2:
     dependencies:
