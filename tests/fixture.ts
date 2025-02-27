@@ -190,6 +190,12 @@ export const testRoutes =
     path: "auth/:provider-key",
     parentId: "root",
   },
+  "routes/($provider-key).about": {
+    file: "routes/($provider-key).about.tsx",
+    id: "routes/($provider-key).about",
+    path: ":provider-key?/about",
+    parentId: "root",
+  },
   catchall: {
     path: "/somewhere/cool/*",
     index: undefined,

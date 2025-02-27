@@ -14,8 +14,12 @@ exports[`gen route types 1`] = `
       query: ExportedQuery<import('../app/root').SearchParams>,
     },
     "/:lang?/about": {
-      params: {'lang?': string | number},
+      params: {'lang'?: string | number},
       query: ExportedQuery<import('../app/routes/($lang).about').SearchParams>,
+    },
+    "/:provider-key?/about": {
+      params: {'provider-key'?: string | number},
+      query: ExportedQuery<import('../app/routes/($provider-key).about').SearchParams>,
     },
     "/admin": {
       params: never,
@@ -166,6 +170,7 @@ exports[`gen route types 1`] = `
             | 'routes/blog'
             | 'routes/blog._index'
             | 'routes/auth.$provider-key'
+            | 'routes/($provider-key).about'
             | 'catchall';
 
   export function $path<
