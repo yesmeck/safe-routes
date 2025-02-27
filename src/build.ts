@@ -116,7 +116,7 @@ function parse(routes: RouteManifestEntry[]) {
           .split('/')
           .filter((seg) => seg.startsWith(':') || seg == '*')
           .map((param) => param.split('.')[0])
-          .map((param) => param.replace(':', '').replace('*', '"*"')),
+          .map((param) => param.replace(':', '')),
       )
     );
   });
