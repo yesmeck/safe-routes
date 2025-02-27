@@ -116,7 +116,18 @@ function parse(routes: RouteManifestEntry[]) {
           .split('/')
           .filter((seg) => seg.startsWith(':') || seg == '*')
           .map((param) => param.split('.')[0])
-          .map((param) => param.replace(':', '')),
+          .map((param) => {
+            let keyable = param.replace(':', '');
+            const isOptional = keyable.match(/\?$/);
+            if (isOptional) {
+              keyable = keyable.replace(/\?$/, '');
+            }
+            keyable = `'${keyable}'`
+            if (isOptional) {
+              keyable = `${keyable}?`
+            }
+            return keyable;
+          })
       )
     );
   });
