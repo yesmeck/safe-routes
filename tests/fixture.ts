@@ -184,6 +184,12 @@ export const testRoutes =
     path: undefined,
     parentId: "routes/blog",
   },
+  "routes/auth.$provider-key": {
+    file: "routes/auth.$provider-key.",
+    id: "routes/auth.$provider-key",
+    path: "auth/:provider-key",
+    parentId: "root",
+  },
   catchall: {
     path: "/somewhere/cool/*",
     index: undefined,
