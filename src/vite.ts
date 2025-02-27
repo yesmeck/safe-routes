@@ -1,5 +1,6 @@
 import replace from '@rollup/plugin-replace';
 import * as Vite from 'vite';
+import { join } from 'node:path';
 import { placeholder } from './basename.js';
 import { DEFAULT_OUTPUT_DIR_PATH, build } from './build.js';
 import { ReactRouterPluginContext } from './types.js';
@@ -32,7 +33,7 @@ export function safeRoutes(pluginConfig: PluginOptions = {}): Vite.Plugin {
   }
 
   async function reloadCtx() {
-    const config = await reactRouterPlugin.config(viteUserConfig, viteConfigEnv);
+    const config = await reactRouterPlugin.config(viteUserConfig, { ...viteConfigEnv, command: 'build' });
     ctx = extractReactRouterPluginContext(config);
   }
 
@@ -43,7 +44,6 @@ export function safeRoutes(pluginConfig: PluginOptions = {}): Vite.Plugin {
       viteUserConfig = _viteUserConfig;
       viteConfigEnv = _viteConfigEnv;
       if (ctx && ctx.reactRouterConfig.basename) {
-        console.log({ placeholder, basename: ctx.reactRouterConfig.basename });
         viteUserConfig.plugins?.push(replace.default({
           [placeholder]: ctx.reactRouterConfig.basename,
         }));
@@ -58,13 +58,15 @@ export function safeRoutes(pluginConfig: PluginOptions = {}): Vite.Plugin {
       ctx = extractReactRouterPluginContext(config);
       generateTypeFile();
     },
-    async watchChange(id, change) {
-      if (!reactRouterPlugin) {
+    async watchChange(id) {
+      if (!reactRouterPlugin || !ctx) {
         return;
       }
-      if (change.event === 'update') {
+
+      if (!id.startsWith(ctx.reactRouterConfig.appDirectory)) {
         return;
       }
+
       await reloadCtx();
       generateTypeFile();
     },
