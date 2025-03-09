@@ -15,7 +15,8 @@ type RoutesInfo = Record<string, {
   params: string[];
 }>
 
-export const DEFAULT_OUTPUT_DIR_PATH = './.react-router/types'
+export const DEFAULT_OUTPUT_DIR_PATH = './.react-router/types';
+export const TYPE_FILE_NAME = 'safe-routes.d.ts';
 
 async function buildHelpers(config: RequiredReactRouterConfig): Promise<[RoutesInfo, string[]]> {
   const routesInfo: RoutesInfo = {};
@@ -103,7 +104,7 @@ function generate(root: string, config: RequiredReactRouterConfig, routesInfo: R
   if (!fs.existsSync(outputPath)) {
     mkdirp.sync(outputPath);
   }
-  fs.writeFileSync(path.join(outputPath, 'safe-routes.d.ts'), tsCode);
+  fs.writeFileSync(path.join(outputPath, TYPE_FILE_NAME), tsCode);
 }
 
 function parse(routes: RouteManifestEntry[]) {

@@ -2,7 +2,7 @@ import replace from '@rollup/plugin-replace';
 import * as Vite from 'vite';
 import { join } from 'node:path';
 import { placeholder } from './basename.js';
-import { DEFAULT_OUTPUT_DIR_PATH, build } from './build.js';
+import { DEFAULT_OUTPUT_DIR_PATH, TYPE_FILE_NAME, build } from './build.js';
 import { ReactRouterPluginContext } from './types.js';
 
 export interface PluginOptions {
@@ -64,6 +64,10 @@ export function safeRoutes(pluginConfig: PluginOptions = {}): Vite.Plugin {
       }
 
       if (!id.startsWith(ctx.reactRouterConfig.appDirectory)) {
+        return;
+      }
+
+      if (pluginConfig.outDir && id === join(rootDirectory, pluginConfig.outDir, TYPE_FILE_NAME)) {
         return;
       }
 
