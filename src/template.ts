@@ -70,5 +70,14 @@ export function template(ctx: Context) {
   ): string;
 
   export function $routeId(routeId: RouteId): RouteId;
+
+  /** @deprecated Prefer to use React Router's typegen features instead. */
+  export function $params<
+    Route extends keyof RoutesWithParams,
+    Params extends RoutesWithParams[Route]["params"]
+  >(
+      route: Route,
+      params: { readonly [key: string]: string | undefined }
+  ): {[K in keyof Params]: string};
 }`;
 };

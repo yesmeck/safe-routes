@@ -58,3 +58,11 @@ export function $path(route: string, ...paramsOrQuery: Array<any>) {
 export function $routeId(routeId: string) {
   return routeId;
 }
+
+/** @deprecated Prefer to use React Router's typegen features instead. */
+export function $params(
+  _route: string,
+  params: { readonly [key: string]: string | undefined },
+) {
+  return params;
+}

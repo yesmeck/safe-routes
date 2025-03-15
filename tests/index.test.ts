@@ -1,5 +1,5 @@
 import { expect, test, vi } from 'vitest';
-import { $path } from '../src';
+import { $params, $path } from '../src';
 import * as basename from '../src/basename.ts';
 
 vi.mock(import('../src/basename.ts'));
@@ -51,6 +51,10 @@ test('$path + catch all route', () => {
 
 test('optional segment', () => {
   expect($path('/tree?/:tree?', { tree: 'main' })).toBe('/tree/main');
+});
+
+test('$params', () => {
+  expect($params('/posts/:id', { id: '1' })).toStrictEqual({ id: '1' });
 });
 
 test('basename', async () => {
