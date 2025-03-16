@@ -121,6 +121,31 @@ export const loader = async (request) => {
 }
 ```
 
+### Checking params
+
+> [!NOTE]
+> This function has been marked `@deprecated` in favor of React Router's
+> built-in type-safety, which provides strongly typed `params` to loaders,
+> actions, and components. This helper has been kept primarily to assist in
+> incremental migration.
+
+```typescript
+import { useParams } from "react-router";
+import { $params } from 'safe-routes'; // <-- Import $params helper.
+
+export const action = async ({ params }) => {
+  const { id } = $params("/posts/:id/update", params) // <-- It's type safe, try renaming `id` param.
+
+  // ...
+}
+
+export default function Component() {
+  const params = useParams();
+  const { id } = $params("/posts/:id/update", params);
+  ...
+}
+```
+
 ### Typed route ids
 
 safe-routes exports the `RouteId` type definition with the list of all valid route ids for your repository, and has a helper function `$routeId` that tells typescript to restrict the given string to one of the valid RouteId values.
