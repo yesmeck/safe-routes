@@ -1,1 +1,1 @@
-module.exports = require('./dist/vite');
+export * from './dist/vite.js';
