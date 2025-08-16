@@ -24,7 +24,7 @@ function routes(ctx: Context) {
   const routes = ctx.routes.map(({ route, params, fileName }) =>
     `"${route}": {
       params: ${params.length > 0 ? `{${params.map(param => `${param}: string | number`).join('; ')}}` : 'never'},
-      query: ExportedQuery<import('${ctx.relativeAppDirPath}/${fileName}').SearchParams>,
+      query: ExportedQuery<import('${ctx.relativeAppDirPath}/${fileName}.js').SearchParams>,
     }`
   );
 
