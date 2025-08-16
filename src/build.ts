@@ -15,7 +15,7 @@ type RoutesInfo = Record<string, {
   params: string[];
 }>
 
-export const DEFAULT_OUTPUT_DIR_PATH = './.react-router/types';
+export const DEFAULT_OUTPUT_DIR_PATH = './node_modules';
 export const TYPE_FILE_NAME = 'safe-routes.d.ts';
 
 async function buildHelpers(config: RequiredReactRouterConfig): Promise<[RoutesInfo, string[]]> {
