@@ -5,6 +5,7 @@ on:
       - main # or main
 
 permissions:
+  id-token: write  # Required for OIDC
   contents: read # for checkout
 
 jobs:
@@ -27,6 +28,10 @@ jobs:
         with:
           node-version: "lts/*"
 
+      # Ensure npm 11.5.1 or later is installed
+      - name: Update npm
+        run: npm install -g npm@latest
+
       - uses: pnpm/action-setup@v4
 
       - name: Install dependencies
@@ -38,5 +43,4 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release
