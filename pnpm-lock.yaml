@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@semantic-release/npm':
-    hash: uwcmgv3rwf5cmso7gdst3ttb3u
+    hash: rprdstiiibzx6nwlvf6s7vdnqq
     path: patches/@semantic-release__npm.patch
 
 importers:
@@ -10240,7 +10240,7 @@ snapshots:
       - encoding
       - supports-color
 
-  '@semantic-release/npm@12.0.2(patch_hash=uwcmgv3rwf5cmso7gdst3ttb3u)(semantic-release@24.2.7(typescript@5.7.2))':
+  '@semantic-release/npm@12.0.2(patch_hash=rprdstiiibzx6nwlvf6s7vdnqq)(semantic-release@24.2.7(typescript@5.7.2))':
     dependencies:
       '@semantic-release/error': 4.0.0
       aggregate-error: 5.0.0
@@ -14437,7 +14437,7 @@ snapshots:
       '@semantic-release/commit-analyzer': 13.0.1(semantic-release@24.2.7(typescript@5.7.2))
       '@semantic-release/error': 4.0.0
       '@semantic-release/github': 11.0.4(semantic-release@24.2.7(typescript@5.7.2))
-      '@semantic-release/npm': 12.0.2(patch_hash=uwcmgv3rwf5cmso7gdst3ttb3u)(semantic-release@24.2.7(typescript@5.7.2))
+      '@semantic-release/npm': 12.0.2(patch_hash=rprdstiiibzx6nwlvf6s7vdnqq)(semantic-release@24.2.7(typescript@5.7.2))
       '@semantic-release/release-notes-generator': 14.0.3(semantic-release@24.2.7(typescript@5.7.2))
       aggregate-error: 5.0.0
       cosmiconfig: 9.0.0(typescript@5.7.2)

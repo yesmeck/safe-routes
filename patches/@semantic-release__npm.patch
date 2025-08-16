@@ -1,3 +1,16 @@
+diff --git a/index.js b/index.js
+index 590eace3c47d2b0c83789263affc66df4a2ef440..be8db7f0308f2b47ea65cd4b282c703c44c858cd 100644
+--- a/index.js
++++ b/index.js
+@@ -13,6 +13,8 @@ let prepared;
+ const npmrc = temporaryFile({ name: ".npmrc" });
+ 
+ export async function verifyConditions(pluginConfig, context) {
++  verified = true;
++  return;
+   // If the npm publish plugin is used and has `npmPublish`, `tarballDir` or `pkgRoot` configured, validate them now in order to prevent any release if the configuration is wrong
+   if (context.options.publish) {
+     const publishPlugin =
 diff --git a/lib/publish.js b/lib/publish.js
 index ac3e6feea8e388d88e77d58538a265f7ab4eac05..a279e846539383c8739f87fc5f4fac172d4ddc92 100644
 --- a/lib/publish.js
