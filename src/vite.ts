@@ -67,9 +67,6 @@ export function safeRoutes(pluginConfig: PluginOptions = {}): Vite.Plugin {
       ctx = extractReactRouterPluginContext(config);
     },
     async configureServer() {
-      if (process.env.SAFE_ROUTES_CLI) {
-        await reactRouterPlugin.buildEnd();
-      }
       generateTypeFile();
     },
     async watchChange(id) {

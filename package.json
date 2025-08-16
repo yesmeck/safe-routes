@@ -10,16 +10,7 @@
   "bin": {
     "safe-routes": "dist/cli.js"
   },
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.d.ts"
-    },
-    "./vite": {
-      "import": "./dist/vite.js",
-      "require": "./dist/vite.d.ts"
-    }
-  },
+  "main": "dist/index.js",
   "files": [
     "dist",
     "vite.js",
