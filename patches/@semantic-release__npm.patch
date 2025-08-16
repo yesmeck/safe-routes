@@ -1,0 +1,26 @@
+diff --git a/lib/publish.js b/lib/publish.js
+index ac3e6feea8e388d88e77d58538a265f7ab4eac05..a279e846539383c8739f87fc5f4fac172d4ddc92 100644
+--- a/lib/publish.js
++++ b/lib/publish.js
+@@ -22,7 +22,7 @@ export default async function (npmrc, { npmPublish, pkgRoot }, pkg, context) {
+     logger.log(`Publishing version ${version} to npm registry on dist-tag ${distTag}`);
+     const result = execa(
+       "npm",
+-      ["publish", basePath, "--userconfig", npmrc, "--tag", distTag, "--registry", registry],
++      ["publish", basePath, "--tag", distTag, "--registry", registry],
+       { cwd, env, preferLocal: true }
+     );
+     result.stdout.pipe(stdout, { end: false });
+diff --git a/lib/set-npmrc-auth.js b/lib/set-npmrc-auth.js
+index 6e92d0801b42e6b57fa508b87b374d1706639fc9..6fce48206fd3008f797ac529fcb5e5c864496907 100644
+--- a/lib/set-npmrc-auth.js
++++ b/lib/set-npmrc-auth.js
+@@ -6,7 +6,7 @@ import nerfDart from "nerf-dart";
+ import AggregateError from "aggregate-error";
+ import getError from "./get-error.js";
+ 
+-export default async function (npmrc, registry, { cwd, env: { NPM_TOKEN, NPM_CONFIG_USERCONFIG }, logger }) {
++export default async function (npmrc, registry, { cwd, env: { NPM_TOKEN, npm_config_userconfig }, logger }) {
+   logger.log("Verify authentication for registry %s", registry);
+   const { configs, ...rcConfig } = rc(
+     "npm",
