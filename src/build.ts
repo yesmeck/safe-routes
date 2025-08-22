@@ -39,7 +39,7 @@ async function buildHelpers(config: RequiredReactRouterConfig): Promise<[RoutesI
       } else {
         currentPath = [...currentPath, route];
         const fullPath = dedupPrefixSlash(currentPath.reduce(
-          (acc, curr) => [acc, trimSlash(curr.path)].filter(p => p != undefined).join('/'),
+          (acc, curr) => "/" + [acc, trimSlash(curr.path)].filter(Boolean).join('/'),
           '',
         ));
         const paramsNames = parse(currentPath);
