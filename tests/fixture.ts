@@ -196,6 +196,24 @@ export const testRoutes =
     path: ":provider-key?/about",
     parentId: "root",
   },
+  "routes/fruits/route": {
+    file: "routes/fruits/route.tsx",
+    id: "routes/fruits/route",
+    path: "fruits",
+    parentId: "root",
+  },
+  "routes/fruits/index/route": {
+    file: "routes/fruits/index/route.tsx",
+    id: "routes/fruits/index/route",
+    path: "",
+    parentId: "routes/fruits/route",
+  },
+  "routes/fruits/show/route": {
+    file: "routes/fruits/show/route.tsx",
+    id: "routes/fruits/show/route",
+    path: ":id",
+    parentId: "routes/fruits/index/route",
+  },
   catchall: {
     path: "/somewhere/cool/*",
     index: undefined,

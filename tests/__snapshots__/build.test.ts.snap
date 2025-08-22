@@ -77,6 +77,14 @@ exports[`gen route types 1`] = `
       params: never,
       query: ExportedQuery<import('../app/routes/credits.js').SearchParams>,
     },
+    "/fruits": {
+      params: never,
+      query: ExportedQuery<import('../app/routes/fruits/index/route.js').SearchParams>,
+    },
+    "/fruits/:id": {
+      params: {'id': string | number},
+      query: ExportedQuery<import('../app/routes/fruits/show/route.js').SearchParams>,
+    },
     "/home": {
       params: never,
       query: ExportedQuery<import('../app/routes/(static).home.js').SearchParams>,
@@ -171,6 +179,9 @@ exports[`gen route types 1`] = `
             | 'routes/blog._index'
             | 'routes/auth.$provider-key'
             | 'routes/($provider-key).about'
+            | 'routes/fruits/route'
+            | 'routes/fruits/index/route'
+            | 'routes/fruits/show/route'
             | 'catchall';
 
   export function $path<
