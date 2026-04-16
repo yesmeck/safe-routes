@@ -1,5 +1,4 @@
 import { reactRouter } from "@react-router/dev/vite";
-import replace from '@rollup/plugin-replace';
 import { join } from 'node:path';
 import * as Vite from 'vite';
 import { placeholder } from './basename.js';
@@ -21,6 +20,18 @@ function extractReactRouterPluginContext(config: Vite.UserConfig | Vite.Resolved
 
 function findReactRouterPlugin(plugins: readonly Vite.Plugin[]) {
   return plugins.find((plugin) => plugin.name === 'react-router');
+}
+
+function normalizePath(filePath: string) {
+  return Vite.normalizePath(filePath.replace(/\\/g, '/')).replace(/\/+$/, '');
+}
+
+function isWithinDirectory(filePath: string, directoryPath: string) {
+  const normalizedFilePath = normalizePath(filePath);
+  const normalizedDirectoryPath = normalizePath(directoryPath);
+
+  return normalizedFilePath === normalizedDirectoryPath
+    || normalizedFilePath.startsWith(`${normalizedDirectoryPath}/`);
 }
 
 export function safeRoutes(pluginConfig: PluginOptions = {}): Vite.Plugin {
@@ -52,11 +63,6 @@ export function safeRoutes(pluginConfig: PluginOptions = {}): Vite.Plugin {
     config(_viteUserConfig, _viteConfigEnv) {
       viteUserConfig = _viteUserConfig;
       viteConfigEnv = _viteConfigEnv;
-      if (ctx && ctx.reactRouterConfig.basename) {
-        viteUserConfig.plugins?.push(replace.default({
-          [placeholder]: ctx.reactRouterConfig.basename,
-        }));
-      }
     },
     configResolved(config) {
       reactRouterPlugin = findReactRouterPlugin(config.plugins);
@@ -69,16 +75,27 @@ export function safeRoutes(pluginConfig: PluginOptions = {}): Vite.Plugin {
     async configureServer() {
       generateTypeFile();
     },
+    transform(code) {
+      const basename = ctx?.reactRouterConfig.basename;
+      if (!basename || !code.includes(placeholder)) {
+        return;
+      }
+
+      return code.replaceAll(placeholder, basename);
+    },
     async watchChange(id) {
       if (!reactRouterPlugin || !ctx) {
         return;
       }
 
-      if (!id.startsWith(ctx.reactRouterConfig.appDirectory)) {
+      if (!isWithinDirectory(id, ctx.reactRouterConfig.appDirectory)) {
         return;
       }
 
-      if (pluginConfig.outDir && id === join(rootDirectory, pluginConfig.outDir, TYPE_FILE_NAME)) {
+      if (
+        pluginConfig.outDir
+        && normalizePath(id) === normalizePath(join(rootDirectory, pluginConfig.outDir, TYPE_FILE_NAME))
+      ) {
         return;
       }
 

@@ -2,7 +2,8 @@ name: Release
 on:
   push:
     branches:
-      - main # or main
+      - main
+      - alpha
 
 permissions:
   id-token: write  # Required for OIDC
