@@ -1,0 +1,128 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`safeRoutes vite plugin e2e > generates route types for a React Router app 1`] = `
+"declare module "safe-routes" {
+  type URLSearchParamsInit = string | string[][] | Record<string, string> | URLSearchParams;
+  // symbol won't be a key of SearchParams
+  type IsSearchParams<T> = symbol extends keyof T ? false : true;
+
+  type ExportedQuery<T> = IsSearchParams<T> extends true ? T : URLSearchParamsInit;
+
+  export interface Routes {
+    "/": {
+      params: never,
+      query: ExportedQuery<import('../app/routes/home.js').SearchParams>,
+    },
+    "/posts": {
+      params: never,
+      query: ExportedQuery<import('../app/routes/posts.js').SearchParams>,
+    },
+    "/posts/:id": {
+      params: {'id': string | number},
+      query: ExportedQuery<import('../app/routes/posts.$id.js').SearchParams>,
+    }
+  }
+
+  type RoutesWithParams = Pick<
+    Routes,
+    {
+      [K in keyof Routes]: Routes[K]["params"] extends Record<string, never> ? never : K
+    }[keyof Routes]
+  >;
+
+  export type RouteId =
+            | 'root'
+            | 'routes/home'
+            | 'routes/posts'
+            | 'routes/posts.$id';
+
+  export function $path<
+    Route extends keyof Routes,
+    Rest extends {
+      params: Routes[Route]["params"];
+      query?: Routes[Route]["query"];
+    }
+  >(
+    ...args: Rest["params"] extends Record<string, never>
+      ? [route: Route, query?: Rest["query"]]
+      : [route: Route, params: Rest["params"], query?: Rest["query"]]
+  ): string;
+
+  export function $routeId(routeId: RouteId): RouteId;
+
+  /** @deprecated Prefer to use React Router's typegen features instead. */
+  export function $params<
+    Route extends keyof RoutesWithParams,
+    Params extends RoutesWithParams[Route]["params"]
+  >(
+      route: Route,
+      params: { readonly [key: string]: string | undefined }
+  ): {[K in keyof Params]: string};
+}"
+`;
+
+exports[`safeRoutes vite plugin e2e > updates generated types when routes change during dev 1`] = `
+"declare module "safe-routes" {
+  type URLSearchParamsInit = string | string[][] | Record<string, string> | URLSearchParams;
+  // symbol won't be a key of SearchParams
+  type IsSearchParams<T> = symbol extends keyof T ? false : true;
+
+  type ExportedQuery<T> = IsSearchParams<T> extends true ? T : URLSearchParamsInit;
+
+  export interface Routes {
+    "/": {
+      params: never,
+      query: ExportedQuery<import('../app/routes/home.js').SearchParams>,
+    },
+    "/admin": {
+      params: never,
+      query: ExportedQuery<import('../app/routes/admin.js').SearchParams>,
+    },
+    "/posts": {
+      params: never,
+      query: ExportedQuery<import('../app/routes/posts.js').SearchParams>,
+    },
+    "/posts/:id": {
+      params: {'id': string | number},
+      query: ExportedQuery<import('../app/routes/posts.$id.js').SearchParams>,
+    }
+  }
+
+  type RoutesWithParams = Pick<
+    Routes,
+    {
+      [K in keyof Routes]: Routes[K]["params"] extends Record<string, never> ? never : K
+    }[keyof Routes]
+  >;
+
+  export type RouteId =
+            | 'root'
+            | 'routes/home'
+            | 'routes/posts'
+            | 'routes/posts.$id'
+            | 'routes/admin';
+
+  export function $path<
+    Route extends keyof Routes,
+    Rest extends {
+      params: Routes[Route]["params"];
+      query?: Routes[Route]["query"];
+    }
+  >(
+    ...args: Rest["params"] extends Record<string, never>
+      ? [route: Route, query?: Rest["query"]]
+      : [route: Route, params: Rest["params"], query?: Rest["query"]]
+  ): string;
+
+  export function $routeId(routeId: RouteId): RouteId;
+
+  /** @deprecated Prefer to use React Router's typegen features instead. */
+  export function $params<
+    Route extends keyof RoutesWithParams,
+    Params extends RoutesWithParams[Route]["params"]
+  >(
+      route: Route,
+      params: { readonly [key: string]: string | undefined }
+  ): {[K in keyof Params]: string};
+}"
+`;
