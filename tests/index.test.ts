@@ -62,3 +62,15 @@ test('basename', async () => {
 
   expect($path('/posts')).toBe("/blog/posts");
 });
+
+test('root basename', async () => {
+  vi.mocked(basename.resolveBasename).mockReturnValue('/');
+
+  expect($path('/posts')).toBe('/posts');
+});
+
+test('basename with trailing slash', async () => {
+  vi.mocked(basename.resolveBasename).mockReturnValue('/blog/');
+
+  expect($path('/posts')).toBe('/blog/posts');
+});

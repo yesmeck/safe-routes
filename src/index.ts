@@ -6,10 +6,10 @@ function includesParams(route: string) {
 
 function prependBasename(path: string) {
   const basename = resolveBasename();
-  if (!basename) {
+  if (!basename || basename === '/') {
     return path;
   }
-  return basename + path;
+  return `${basename.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`;
 }
 
 export function $path(route: string, ...paramsOrQuery: Array<any>) {
